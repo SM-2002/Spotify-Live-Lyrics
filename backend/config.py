@@ -16,13 +16,16 @@ class Settings:
     spotify_client_id: str
     spotify_client_secret: str
     spotify_redirect_uri: str
+    session_secret_key: str
 
     @classmethod
     def from_env(cls) -> "Settings":
+        spotify_client_secret = _required_env("SPOTIFY_CLIENT_SECRET")
         return cls(
             spotify_client_id=_required_env("SPOTIFY_CLIENT_ID"),
-            spotify_client_secret=_required_env("SPOTIFY_CLIENT_SECRET"),
+            spotify_client_secret=spotify_client_secret,
             spotify_redirect_uri=_required_env("SPOTIFY_REDIRECT_URI"),
+            session_secret_key=os.getenv("SESSION_SECRET_KEY", spotify_client_secret),
         )
 
 

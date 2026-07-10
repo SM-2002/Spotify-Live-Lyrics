@@ -4,6 +4,7 @@ from authlib.integrations.starlette_client import OAuth
 from fastapi import APIRouter, Request
 
 from config import get_settings
+from fastapi.responses import RedirectResponse
 
 SPOTIFY_AUTHORIZE_URL = "https://accounts.spotify.com/authorize"
 SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token"
@@ -42,7 +43,4 @@ async def callback(request: Request):
     # Store the token in the user's session
     request.session["spotify_token"] = token
 
-    return {
-        "status": "spotify authorization successful",
-        "message": "Token stored successfully."
-    }
+    return RedirectResponse("http://localhost:5173/dashboard")

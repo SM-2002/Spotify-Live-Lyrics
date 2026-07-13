@@ -4,11 +4,20 @@ from starlette.middleware.sessions import SessionMiddleware
 from auth import router as auth_router
 from config import get_settings
 
+from spotify_routes import router as spotify_router
+
 settings = get_settings()
+
 app = FastAPI(title="Spotify Live Lyrics API")
+
 app.state.settings = settings
-app.add_middleware(SessionMiddleware, secret_key=settings.session_secret_key)
+
+app.add_middleware(
+    SessionMiddleware, secret_key=settings.session_secret_key
+)
+
 app.include_router(auth_router)
+app.include_router(spotify_router)
 
 
 @app.get("/")
